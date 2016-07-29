@@ -1,11 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>io.corbel.lib</groupId>
   <artifactId>ws</artifactId>
   <version>0.20.0-SNAPSHOT</version>
   <name>ws</name>
+
   <description>Library to create Java Web Services</description>
   <url>https://github.com/corbel-platform/lib-ws</url>
+
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
@@ -13,28 +16,36 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
   <organization>
-    <name>bq</name>
-    <url>http://www.bq.com/</url>
+    <name>Devialab</name>
+    <url>http://www.devialab.com/</url>
   </organization>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <dropwizard.version>0.8.1</dropwizard.version>
     <spring.version>4.1.7.RELEASE</spring.version>
   </properties>
+
   <scm>
-    <connection>scm:git:ssh://bq-devtools@git.dev.bqsoftware.net:29418/lib-ws</connection>
-    <developerConnection>scm:git:ssh://bq-devtools@git.dev.bqsoftware.net:29418/lib-ws</developerConnection>
+    <connection>scm:git:git://github.com/corbel-platform/lib-ws.git</connection>
+    <developerConnection>scm:git:git@github.com/corbel-platform/lib-ws.git</developerConnection>
     <url>https://github.com/corbel-platform/lib-ws</url>
     <tag>HEAD</tag>
   </scm>
+
   <distributionManagement>
     <snapshotRepository>
-      <id>sonatype</id>
-      <name>Sonatype Nexus snapshot repository</name>
+      <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
+
   <dependencies>
     <dependency>
       <groupId>io.corbel</groupId>
@@ -171,12 +182,13 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.2</version>
+        <version>3.3</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -206,61 +218,68 @@
         <version>1.6.3</version>
         <extensions>true</extensions>
         <configuration>
-          <serverId>sonatype</serverId>
+          <serverId>ossrh</serverId>
           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>release-sign-artifacts</id>
-      <activation>
-        <property>
-          <name>performRelease</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
+
   <ciManagement>
     <system>Travis CI</system>
     <url>https://travis-ci.org/corbel-platform/lib-ws</url>
   </ciManagement>
+
   <issueManagement>
     <url>https://github.com/corbel-platform/lib-ws/issues</url>
     <system>GitHub Issues</system>
   </issueManagement>
+
   <developers>
     <developer>
-      <name>David Martínez</name>
-      <email>david.martinez@bq.com</email>
-      <timezone>Europe/Madrid</timezone>
-      <roles>
-        <role>committer</role>
-      </roles>
-    </developer>
-    <developer>
       <name>Alexander de Leon</name>
-      <email>alexander.deleon@bq.com</email>
+      <email>alexander.deleon@devialab.com</email>
       <timezone>Europe/Madrid</timezone>
       <roles>
         <role>committer</role>
@@ -268,7 +287,7 @@
     </developer>
     <developer>
       <name>Alberto J. Rubio</name>
-      <email>alberto.rubio@bq.com</email>
+      <email>alberto.rubio@devialab.com</email>
       <timezone>Europe/Madrid</timezone>
       <roles>
         <role>committer</role>
@@ -276,7 +295,7 @@
     </developer>
     <developer>
       <name>Anthanh Pham</name>
-      <email>anthanh.pham@bq.com</email>
+      <email>anthanh.pham@devialab.com</email>
       <timezone>Europe/Madrid</timezone>
       <roles>
         <role>committer</role>
@@ -284,7 +303,7 @@
     </developer>
     <developer>
       <name>Francisco Sánchez</name>
-      <email>francisco.sanchez@bq.com</email>
+      <email>francisco.sanchez@devialab.com</email>
       <timezone>Europe/Madrid</timezone>
       <roles>
         <role>committer</role>
@@ -292,7 +311,7 @@
     </developer>
     <developer>
       <name>Ismael Madirolas</name>
-      <email>ismael.madirolas@bq.com</email>
+      <email>ismael.madirolas@devialab.com</email>
       <timezone>Europe/Madrid</timezone>
       <roles>
         <role>committer</role>
@@ -300,7 +319,7 @@
     </developer>
     <developer>
       <name>Cristian del Cerro</name>
-      <email>cristian.delcerro@bq.com</email>
+      <email>cristian.delcerro@devialab.com</email>
       <timezone>Europe/Madrid</timezone>
       <roles>
         <role>committer</role>
@@ -308,27 +327,12 @@
     </developer>
     <developer>
       <name>Rubén Carrasco</name>
-      <email>rcarrasco@bq.com</email>
-      <timezone>Europe/Madrid</timezone>
-      <roles>
-        <role>committer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Laura Sada</name>
-      <email>laura.sada@bq.com</email>
-      <timezone>Europe/Madrid</timezone>
-      <roles>
-        <role>committer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Luis Miguel García</name>
-      <email>luismiguel.garcia@bq.com</email>
+      <email>ruben.carrasco@devialab.com</email>
       <timezone>Europe/Madrid</timezone>
       <roles>
         <role>committer</role>
       </roles>
     </developer>
   </developers>
+
 </project>
