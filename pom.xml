@@ -3,7 +3,7 @@
 
   <groupId>io.corbel.lib</groupId>
   <artifactId>ws</artifactId>
-  <version>0.20.0-SNAPSHOT</version>
+  <version>0.21.0-SNAPSHOT</version>
   <name>ws</name>
 
   <description>Library to create Java Web Services</description>
@@ -65,7 +65,7 @@
     <dependency>
       <groupId>io.corbel.lib</groupId>
       <artifactId>queries-api</artifactId>
-      <version>0.15.0-SNAPSHOT</version>
+      <version>0.15.0</version>
     </dependency>
     <dependency>
       <groupId>io.corbel.lib</groupId>
