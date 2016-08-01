@@ -45,7 +45,8 @@ public class MatrixEncodingRequestFilter implements ContainerRequestFilter {
         Matcher matcher = matrixPattern.matcher(path.toASCIIString());
         if (matcher.matches()) {
             String encodedMatrix = matcher.group(2).replaceAll("/", "%2F");
-            String encodedRequestUri = matcher.replaceFirst("$1" + encodedMatrix);
+            String encodedRequestUri = matcher.replaceFirst("$1" + encodedMatrix) + "?" +request.getUriInfo()
+                    .getRequestUri().getRawQuery();
             request.setRequestUri(request.getUriInfo().getBaseUri(), URI.create(encodedRequestUri));
         }
     }
