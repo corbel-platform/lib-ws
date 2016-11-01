@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class ChunkedAwaredShallowEtagHeaderFilter extends ShallowEtagHeaderFilter {
 
@@ -22,8 +23,8 @@ public class ChunkedAwaredShallowEtagHeaderFilter extends ShallowEtagHeaderFilte
     }
 
     @Override
-    protected boolean isEligibleForEtag(HttpServletRequest request, HttpServletResponse response, int responseStatusCode, byte[] responseBody) {
-        return !isChucked(response) && super.isEligibleForEtag(request, response, responseStatusCode, responseBody);
+    protected boolean isEligibleForEtag(HttpServletRequest request, HttpServletResponse response, int responseStatusCode, InputStream inputStream) {
+        return !isChucked(response) && super.isEligibleForEtag(request, response, responseStatusCode, inputStream);
     }
 
     protected boolean isChucked(HttpServletResponse response) {
