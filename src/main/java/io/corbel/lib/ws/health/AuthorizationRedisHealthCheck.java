@@ -1,5 +1,6 @@
 package io.corbel.lib.ws.health;
 
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import com.codahale.metrics.health.HealthCheck;
@@ -19,10 +20,16 @@ public class AuthorizationRedisHealthCheck extends HealthCheck {
 
     @Override
     protected Result check() throws Exception {
-        if (redisTemplate.getConnectionFactory().getConnection().ping().equals("PONG")
-                && redisTemplate.opsForSet().members("fake").size() == 0) {
-            return Result.healthy();
+        RedisConnection redis = redisTemplate.getConnectionFactory().getConnection();
+        try {
+            if (redis.ping().equals("PONG")
+                    && redisTemplate.opsForSet().members("fake").size() == 0) {
+                return Result.healthy();
+            }
+            return Result.unhealthy("Redis is down");
         }
-        return Result.unhealthy("Redis is down");
+        finally {
+            redis.close();
+        }
     }
 }
